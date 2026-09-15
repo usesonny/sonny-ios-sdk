@@ -16,4 +16,4 @@ jobs:
       - name: Test sample on an available iPhone simulator
         run: |
           IOS_TEST_DEVICE=$(xcrun simctl list devices available -j | python3 -c 'import json,sys; print(next(d["udid"] for ds in json.load(sys.stdin)["devices"].values() for d in ds if d["name"].startswith("iPhone")))')
-          xcodebuild -project Sample/SonnySample.xcodeproj -scheme SonnySample -destination "platform=iOS Simulator,id=$IOS_TEST_DEVICE" CODE_SIGNING_ALLOWED=NO test
+          xcodebuild -project Sample/SonnySample.xcodeproj -scheme SonnySample -destination "platform=iOS Simulator,id=$IOS_TEST_DEVICE" CODE_SIGN_IDENTITY=- CODE_SIGNING_REQUIRED=YES test
