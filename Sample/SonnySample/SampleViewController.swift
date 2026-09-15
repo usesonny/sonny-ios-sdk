@@ -49,9 +49,11 @@ final class SampleViewController: UIViewController {
         let jwt = field("Identity JWT (preferred)", secure: true)
         let email = field("Email for legacy identity")
         let name = field("Name")
-        action("Identify") {
+        action("Identify") { [weak self] in
             if let token = jwt.text, !token.isEmpty { try Sonny.identify(jwt: token) }
             else { try Sonny.identify(email: email.text ?? "", name: name.text) }
+            jwt.text = ""
+            self?.status.text = "Identity submitted. Open support to continue."
         }
         action("Set sample attributes") { try Sonny.setAttributes(["plan": "sample", "platform": "ios"]) }
         action("Open support") { [weak self] in
